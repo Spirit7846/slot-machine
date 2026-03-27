@@ -1,0 +1,87 @@
+import random
+import time
+
+times_gambled = 0
+money = 1000
+jackpot_extra = 0
+while money > 0:
+    random_number = [random.randint(1, 9), random.randint(1, 9), random.randint(1, 9)]
+    print("your money:")
+    print(money)
+    print("the amount you gambled:")
+    print(times_gambled)
+    try:
+        bet_money = float(input("How much do you want to bet? "))
+    except ValueError:
+        print("Enter a number.")
+        print("your money:")
+        print(money)
+        continue
+    if bet_money > money:
+        print("try again")
+        print("your money:")
+        print(money)
+        continue
+    money = money - bet_money
+
+    
+    print("Spinning...")
+    time.sleep(0.5)
+    print({random_number[0]},  {random_number[1]},  {random_number[2]})
+
+    
+    if random_number[0] == random_number[1] == random_number[2] == 7:
+        bet_money = bet_money * 50 + jackpot_extra
+        jackpot_extra = 0
+        print("***************************")
+        print("      !!! JACKPOT !!!")
+        print("***************************")
+    elif random_number[0] == random_number[1] == random_number[2]:
+        bet_money = bet_money * 10 + jackpot_extra
+        jackpot_extra = 0
+        print("***************************")
+        print("   !!! SMALL JACKPOT !!!")
+        print("***************************")
+    elif random_number[0] == random_number[1] or random_number[0] == random_number[2] or random_number[1] == random_number[2]: 
+        bet_money = bet_money * 1.5
+        print("***************************")
+        print("       !!! PAIR !!!")
+        print("***************************")
+    elif random_number[0] + 1 == random_number[1] and random_number[1] + 1 == random_number[2]:
+        bet_money = bet_money * 3
+        print("***************************")
+        print("     !!! STRAIGHT !!!")
+        print("***************************")
+    elif random_number[0] == random_number[1] + 1 and random_number[1] == random_number[2] + 1:
+        bet_money = bet_money * 2
+        print("***************************")
+        print(" !!! REVERSE STRAIGHT !!!")
+        print("***************************")
+    else:
+        jackpot_extra += bet_money / 2
+        bet_money = 0
+        print("***************************")
+        print("     !!! YOU LOSE !!!")
+        print("***************************")
+    
+    if bet_money > 0:
+        question = input("Do you wanna play double or nothing? (y/n): ").lower()
+        if question == "y" or question == "yes":
+            if random.randint(0, 1) == 1:
+                print("DOUBLED")
+                bet_money = bet_money * 2
+            else:
+                print("You lost everything")
+                bet_money = 0
+        elif question == "n" or question == "no":
+            pass
+        else:
+            print("IT WAS A YES OR NO QUESTION")
+            bet_money = 0
+            continue
+    print("you win:")
+    print(bet_money)
+    times_gambled += 1
+    money = money + bet_money
+print("--- GAME OVER ---")
+print("you lost all your loans")

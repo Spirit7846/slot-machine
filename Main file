@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+import time
+import os
+from slot import play_slot
+from roulette import play_roulette
+from Dice import Dice_poker
+from Dice import AI_1
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+money = 1000
+times_gambled = 0
+
+while money > 0:
+    clear_screen()
+    print(f"--- THE HUB ---")
+    print(f"Wallet: ${money:.2f} | Total Spins: {times_gambled}")
+    print("Which game would you like to play?")
+
+    choice = input("(1). Slot machine\n(2). Roulette\n(3). Dice Poker\n(q). Quit\nChoice: ").lower()
+
+    if choice == "1":
+        money, times_gambled = play_slot(money, times_gambled)
+    elif choice == "2":
+        money, times_gambled = play_roulette(money, times_gambled)
+    elif choice == "3":
+        money, times_gambled = Dice_poker(money, times_gambled)
+    elif choice == "q":
+        clear_screen()
+        print("NEVER")
+        time.sleep(1)
+        print("you know what they say 90% of people stop before going big")
+        time.sleep(1)
+        print("just dont stop")
+        time.sleep(1)
+        continue
+    else:
+        clear_screen()
+        print("Invalid choice!")
+        time.sleep(1)
+clear_screen()
+print(f"You gambled all your money away")
+print(f"Total times gambled: {times_gambled}")

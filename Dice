@@ -1,0 +1,170 @@
+import random
+import time
+import os
+from collections import Counter
+from collections import defaultdict
+
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def AI_1():
+    roll6 = random.randint(1, 6)
+    roll7 = random.randint(1, 6)
+    roll8 = random.randint(1, 6)
+    roll9 = random.randint(1, 6)
+    roll10 = random.randint(1, 6)
+    reroll_positions = []
+    dice_AI1 = [roll6, roll7, roll8, roll9, roll10]
+    counts_AI = sorted(Counter(dice_AI1).values(), reverse=True)
+    val_positions = defaultdict(list)
+    for index, val in enumerate(dice_AI1):
+        val_positions[val].append(index + 1)
+    pairs = {val: pos for val, pos in val_positions.items() if len(pos) == 2}
+    singles = {val: pos for val, pos in val_positions.items() if len(pos) == 1}
+    if counts_AI == [5]:
+        "hi there"
+    elif counts_AI == [4, 1]:
+        for pos_list in singles.values():
+            reroll_positions.extend(pos_list)
+
+    elif counts_AI == [3, 2]:
+        chance = random.randint(1,10)
+        if chance >= 8:
+            for pos_list in pairs.values():
+                reroll_positions.extend(pos_list)
+        else:
+            "hello there"
+    elif counts_AI == [3, 1, 1]:
+        for pos_list in singles.values():
+            reroll_positions.extend(pos_list)
+    elif counts_AI == [2, 2, 1]:
+        chance = random.randint(1,10)
+        if chance > 5:
+            for pos_list in singles.values():
+                reroll_positions.extend(pos_list)
+            if len(pairs) == 2:
+                pair_values = sorted(pairs.keys())
+                lower_pair = pair_values[0]
+                reroll_positions.extend(pairs[lower_pair])
+        else:
+            for pos_list in singles.values():
+                        reroll_positions.extend(pos_list)
+    elif counts_AI == [2, 1, 1, 1]:
+        for pos_list in singles.values():
+            reroll_positions.extend(pos_list)
+    else:
+        for pos_list in singles.values():
+            reroll_positions.extend(pos_list)
+    if 1 in reroll_positions:
+        roll6 = random.randint(1, 6)
+    if 2 in reroll_positions:
+        roll7 = random.randint(1, 6)
+    if 3 in reroll_positions:
+        roll8 = random.randint(1, 6)
+    if 4 in reroll_positions:
+        roll9 = random.randint(1, 6)
+    if 5 in reroll_positions:
+        roll10 = random.randint(1, 6)
+    dice_AI2 = [roll6, roll7, roll8, roll9, roll10]
+    counts_AI1 = sorted(Counter(dice_AI2).values(), reverse=True)
+    if counts_AI1 == [5]:
+        score_AI = 7
+    elif counts_AI1 == [4, 1]:
+        score_AI = 6
+    elif counts_AI1 == [3, 2]:
+        score_AI = 5
+    elif counts_AI1 == [3, 1, 1]:
+        score_AI = 4
+    elif counts_AI1 == [2, 2, 1]:
+        score_AI = 3
+    elif counts_AI1 == [2, 1, 1, 1]:
+        score_AI = 2
+    else:
+        score_AI = 1
+    total_AI = roll6 + roll7 + roll8 + roll9 + roll10
+    return score_AI, dice_AI1, dice_AI2, total_AI
+
+
+def Dice_poker(money, times_gambled):
+    playing = True
+    while playing and money > 0:
+        clear_screen()
+        score_AI, dice_AI1, dice_AI2, total_AI = AI_1()
+        roll1 = random.randint(1, 6)
+        roll2 = random.randint(1, 6)
+        roll3 = random.randint(1, 6)
+        roll4 = random.randint(1, 6)
+        roll5 = random.randint(1, 6)
+        dice = [roll1, roll2, roll3, roll4, roll5]
+        print(f"Current money: {money:.2f} | times gambled: {times_gambled}")
+        bet_money = float(input("how much you wanna bet?: "))
+        money -= bet_money
+        print("rolling the dice...")
+        time.sleep(1)
+    
+        for i in range(10):
+            clear_screen()
+            print(f"opponent:{random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} \nyou:{random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)}")
+            time.sleep(0.1)
+        clear_screen()
+        print(f"your opponent rolled {dice_AI1} \n \nyou rolled [{roll1}, {roll2}, {roll3}, {roll4}, {roll5}]")
+        reroll = input("\n(1-5 multiple die allowed) \nIf you wanna skip just press enter \nWhich dice do you wanna reroll?")
+        if "1" in reroll:
+            roll1 = random.randint(1, 6)
+        if "2" in reroll:
+            roll2 = random.randint(1, 6)
+        if "3" in reroll:
+            roll3 = random.randint(1, 6)
+        if "4" in reroll:
+            roll4 = random.randint(1, 6)
+        if "5" in reroll:
+            roll5 = random.randint(1, 6)
+        dice = [roll1, roll2, roll3, roll4, roll5]
+        print("rerolling the dice...")
+        time.sleep(1)
+        for i in range(10):
+            clear_screen()
+            print(f"opponent:{random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} \nyou:{random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)} {random.randint(1, 6)}")
+            time.sleep(0.1)
+        clear_screen()
+        print(f"your opponent rolled {dice_AI2} \n \nyou rolled [{roll1}, {roll2}, {roll3}, {roll4}, {roll5}]")
+        counts = sorted(Counter(dice).values(), reverse=True)
+        if counts == [5]:
+            score = 7
+        elif counts == [4, 1]:
+            score = 6
+        elif counts == [3, 2]:
+            score = 5
+        elif counts == [3, 1, 1]:
+            score = 4
+        elif counts == [2, 2, 1]:
+            score = 3
+        elif counts == [2, 1, 1, 1]:
+            score = 2
+        else:
+            score = 1
+        total = roll1 + roll2 + roll3 + roll4 + roll5
+        if score_AI > score:
+            bet_money = 0
+        elif score_AI < score:
+            bet_money *= 2
+        else:
+            if total_AI > total:
+                bet_money = 0
+            elif total_AI < total:
+                bet_money *= 2
+            else:
+                bet_money = 0
+
+        if bet_money > 0:
+            print(f"you won {bet_money}")
+        else:
+            print("you lost")
+        action = input("\nSpin again? (y/n): ").lower()
+        if action in ["n", "no"]:
+            playing = False
+        times_gambled += 1
+        money += bet_money
+    return money, times_gambled
